@@ -166,33 +166,30 @@ abstract class NfAbstract implements InputTransformer
 
             $rps[RpsEnum::SERVICE_VALUE_FINAL] = $extraInformations[RpsEnum::SERVICE_VALUE_FINAL];
 
-            // $rps["ValorJuros"] = 0;
-            $rps["ValorIPI"] = 0;
+            $rps[RpsEnum::IPI_VALUE] = $extraInformations[RpsEnum::IPI_VALUE];
 
+            $rps[RpsEnum::ENFORCEABILITY_SUSPENDED] = $extraInformations[RpsEnum::ENFORCEABILITY_SUSPENDED];
 
-            $rps["ExigibilidadeSuspensa"] = 0;
-            $rps["PagamentoParceladoAntecipado"] = 0;
-            // $rps["NCM"] = null;
-            $rps["NBS"] = "118054000";
-            $rps["cLocPrestacao"] = sprintf('%07s', General::onlyNumbers(3550308));
+            $rps[RpsEnum::PAYMENT_IN_ADVANCE] = $extraInformations[RpsEnum::PAYMENT_IN_ADVANCE];
 
-            // incrição municipal passou de 8 para 12 caracteres
+            $rps[RpsEnum::NBS] = $extraInformations[RpsEnum::NBS];
 
-            $rps["IBSCBS"] = [
-                "finNFSe" => 0,
-                "indFinal" => 0,
-                "cIndOp" => "100301", //verificar
-                "indDest" => 0,
+            $rps[RpsEnum::C_LOC_PRESTACAO] = $extraInformations[RpsEnum::C_LOC_PRESTACAO];
 
-                "valores" => [
-                    'trib' => [
-                        "gIBSCBS" => [
-                            "cClassTrib" => "000001" // verificar
+            $rps[RpsEnum::IBSCBS] = [
+                RpsEnum::FIN_NFSE => $extraInformations[RpsEnum::FIN_NFSE],
+                RpsEnum::IND_FINAL => $extraInformations[RpsEnum::IND_FINAL],
+                RpsEnum::C_IND_OP => $extraInformations[RpsEnum::C_IND_OP],
+                RpsEnum::IND_DEST => $extraInformations[RpsEnum::IND_DEST],
+
+                RpsEnum::VALUES => [
+                    RpsEnum::TRIB => [
+                        RpsEnum::G_IBSCBS => [
+                            RpsEnum::C_CLASS_TRIB => $extraInformations[RpsEnum::C_CLASS_TRIB],
                         ]
                     ]
                 ]
             ];
-
 
             // Optional Fields
             if (isset($extraInformations[RpsEnum::CEI_CODE]) && !empty($extraInformations[RpsEnum::CEI_CODE]))

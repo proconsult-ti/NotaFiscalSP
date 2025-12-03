@@ -22,12 +22,12 @@ class Rps implements UserRequest
     private $statusRps;
     private $tributacaoRps;
     private $ValorFinalCobrado;
-    private $valorServicos;
     private $valorDeducoes;
     private $valorPIS;
     private $valorCOFINS;
     private $valorINSS;
     private $valorIR;
+    private $valorIPI;
     private $valorCSLL;
     private $codigoServico;
     private $aliquotaServicos;
@@ -61,6 +61,15 @@ class Rps implements UserRequest
     private $cep;
     private $cpf;
     private $cnpj;
+    private $exigibilidadeSuspensa;
+    private $pagamentoParceladoAntecipado;
+    private $NBS;
+    private $cLocPrestacao;
+    private $finNFSe;
+    private $indFinal;
+    private $cIndOp;
+    private $indDest;
+    private $cClassTrib;
 
     public function __construct()
     {
@@ -69,19 +78,26 @@ class Rps implements UserRequest
         $this->setDataEmissao(date('Y-m-d'));
         $this->setTributacaoRps(TaxType::IN_SP);
         $this->setValorDeducoes(0);
-        $this->setValorServicos(0);
         $this->setValorPIS(0);
         $this->setValorCOFINS(0);
         $this->setValorINSS(0);
         $this->setValorIR(0);
+        $this->setValorIPI(0);
         $this->setValorCSLL(0);
-        // $this->setValorCargaTributaria(0);
-
-
-        $this->setValorFinalCobrado(0);
         $this->setIssRetido(false);
         $this->setSerieRps('A');
         $this->setAliquotaServicos('0');
+
+        $this->setExigibilidadeSuspensa(0);
+        $this->setPagamentoParceladoAntecipado(0);
+        $this->setcLocPrestacao(3550308); // SP CODE
+        $this->setValorFinalCobrado(0);
+        $this->setFinNFSe(0);
+        $this->setIndFinal(0);
+        $this->setIndDest(0);
+
+
+        // $this->setValorCargaTributaria(0);
         //        $this->setCidade(3550308); // SP CODE
     }
 
@@ -112,13 +128,13 @@ class Rps implements UserRequest
             RpsEnum::EMISSION_DATE => $this->dataEmissao,
             RpsEnum::RPS_STATUS => $this->statusRps,
             RpsEnum::RPS_TAX => $this->tributacaoRps,
-            // RpsEnum::SERVICE_VALUE => $this->valorServicos,
             RpsEnum::SERVICE_VALUE_FINAL => $this->ValorFinalCobrado,
             RpsEnum::DEDUCTION_VALUE => $this->valorDeducoes,
             RpsEnum::PIS_VALUE => $this->valorPIS,
             RpsEnum::COFINS_VALUE => $this->valorCOFINS,
             RpsEnum::INSS_VALUE => $this->valorINSS,
             RpsEnum::IR_VALUE => $this->valorIR,
+            RpsEnum::IPI_VALUE => $this->valorIPI,
             RpsEnum::CSLL_VALUE => $this->valorCSLL,
             RpsEnum::SERVICE_CODE => $this->codigoServico,
             RpsEnum::SERVICE_TAX => $this->aliquotaServicos,
@@ -141,6 +157,15 @@ class Rps implements UserRequest
             RpsEnum::CPFCNPJ_TAKER => $this->cpfCnpjTomador,
             RpsEnum::CORPORATE_NAME_TAKER => $this->razaoSocialTomador,
             RpsEnum::EMAIL_TAKER => $this->emailTomador,
+            RpsEnum::ENFORCEABILITY_SUSPENDED => $this->exigibilidadeSuspensa,
+            RpsEnum::PAYMENT_IN_ADVANCE => $this->pagamentoParceladoAntecipado,
+            RpsEnum::NBS => $this->NBS,
+            RpsEnum::C_LOC_PRESTACAO => $this->cLocPrestacao,
+            RpsEnum::FIN_NFSE => $this->finNFSe,
+            RpsEnum::IND_FINAL => $this->indFinal,
+            RpsEnum::C_IND_OP => $this->cIndOp,
+            RpsEnum::IND_DEST => $this->indDest,
+            RpsEnum::C_CLASS_TRIB => $this->cClassTrib,
             SimpleFieldsEnum::TYPE_ADDRESS => $this->tipoLogradouro,
             SimpleFieldsEnum::ADDRESS => $this->logradouro,
             SimpleFieldsEnum::ADDRESS_NUMBER => $this->numeroEndereco,
@@ -303,21 +328,6 @@ class Rps implements UserRequest
         $this->tributacaoRps = substr($tributacaoRps, 0, 1);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValorServicos()
-    {
-        return $this->valorServicos;
-    }
-
-    /**
-     * @param mixed $valorServicos
-     */
-    public function setValorServicos($valorServicos)
-    {
-        $this->valorServicos = General::filterMonetaryValue($valorServicos);
-    }
 
     /**
      * @return mixed
@@ -413,6 +423,22 @@ class Rps implements UserRequest
     public function setValorIR($valorIR)
     {
         $this->valorIR = $valorIR;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValorIPI()
+    {
+        return $this->valorIPI;
+    }
+
+    /**
+     * @param mixed $valorIPI
+     */
+    public function setValorIPI($valorIPI)
+    {
+        $this->valorIPI = $valorIPI;
     }
 
     /**
@@ -895,5 +921,156 @@ class Rps implements UserRequest
     public function setCep($cep)
     {
         $this->cep = sprintf('%08s', General::onlyNumbers($cep));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExigibilidadeSuspensa()
+    {
+        return $this->exigibilidadeSuspensa;
+    }
+
+    /**
+     * @param mixed $exigibilidadeSuspensa
+     */
+    public function setExigibilidadeSuspensa($exigibilidadeSuspensa)
+    {
+        $this->exigibilidadeSuspensa = $exigibilidadeSuspensa;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPagamentoParceladoAntecipado()
+    {
+        return $this->pagamentoParceladoAntecipado;
+    }
+
+    /**
+     * @param mixed $PagamentoParceladoAntecipado
+     */
+    public function setPagamentoParceladoAntecipado($pagamentoParceladoAntecipado)
+    {
+        $this->pagamentoParceladoAntecipado = $pagamentoParceladoAntecipado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNBS()
+    {
+        return $this->NBS;
+    }
+
+    /**
+     * @param mixed $NBS
+     */
+    public function setNBS($NBS)
+    {
+        $this->NBS = sprintf('%09s', General::onlyNumbers($NBS));
+    }
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function getcLocPrestacao()
+    {
+        return $this->cLocPrestacao;
+    }
+
+    /**
+     * @param mixed $cLocPrestacao
+     */
+    public function setcLocPrestacao($cLocPrestacao)
+    {
+        $this->cLocPrestacao = sprintf('%07s', General::onlyNumbers($cLocPrestacao));
+    }
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function getcIndOp()
+    {
+        return $this->cIndOp;
+    }
+
+    /**
+     * @param mixed $cIndOp
+     */
+    public function setcIndOp($cIndOp)
+    {
+        $this->cIndOp = sprintf('%06s', General::onlyNumbers($cIndOp));
+    }
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function getcClassTrib()
+    {
+        return $this->cClassTrib;
+    }
+
+    /**
+     * @param mixed $cClassTrib
+     */
+    public function setcClassTrib($cClassTrib)
+    {
+        $this->cClassTrib = sprintf('%06s', General::onlyNumbers($cClassTrib));
+    }
+
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function getFinNFSe()
+    {
+        return $this->finNFSe;
+    }
+
+    /**
+     * @param mixed $finNFSe
+     */
+    public function setFinNFSe($finNFSe)
+    {
+        $this->finNFSe = $finNFSe;
+    }
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function getIndFinal()
+    {
+        return $this->indFinal;
+    }
+
+    /**
+     * @param mixed $indFinal
+     */
+    public function setIndFinal($indFinal)
+    {
+        $this->indFinal = $indFinal;
+    }
+
+    /**
+     * 
+     * @return mixed
+     */
+    public function getIndDest()
+    {
+        return $this->indDest;
+    }
+
+    /**
+     * @param mixed $indDest
+     */
+    public function setIndDest($indDest)
+    {
+        $this->indDest = $indDest;
     }
 }
