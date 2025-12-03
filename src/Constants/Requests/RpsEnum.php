@@ -10,6 +10,7 @@ class RpsEnum
     const RPS_STATUS = 'StatusRPS';
     const RPS_TAX = 'TributacaoRPS';
     const SERVICE_VALUE = 'ValorServicos';
+    const SERVICE_VALUE_FINAL = 'ValorFinalCobrado';
     const DEDUCTION_VALUE = 'ValorDeducoes';
     const PIS_VALUE = 'ValorPIS';
     const COFINS_VALUE = 'ValorCOFINS';
@@ -45,7 +46,7 @@ class RpsEnum
             RpsEnum::EMISSION_DATE,
             RpsEnum::RPS_STATUS,
             RpsEnum::RPS_TAX,
-            RpsEnum::SERVICE_VALUE,
+            // RpsEnum::SERVICE_VALUE,
             RpsEnum::DEDUCTION_VALUE,
             RpsEnum::PIS_VALUE,
             RpsEnum::COFINS_VALUE,
@@ -55,6 +56,8 @@ class RpsEnum
             RpsEnum::SERVICE_CODE,
             RpsEnum::SERVICE_TAX,
             RpsEnum::ISS_RETENTION,
+
+            // RpsEnum::SERVICE_VALUE_FINAL,
         ];
     }
 

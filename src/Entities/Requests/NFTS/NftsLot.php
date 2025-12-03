@@ -139,8 +139,8 @@ class NftsLot implements UserRequest
 
         foreach ($nftsList as $nfts) {
             if ($nfts instanceof Nfts) {
-                $emission = $nfts->getDataEmissao() ;
-                $startDate = strtotime($emission) < strtotime($startDate)? $emission : $startDate;
+                $emission = $nfts->getDataEmissao();
+                $startDate = strtotime($emission) < strtotime($startDate) ? $emission : $startDate;
                 $valorTotalServicos = $valorTotalServicos + $nfts->getValorServicos();
                 $valorTotalDeducoes = $valorTotalDeducoes + $nfts->getValorDeducoes();
             }

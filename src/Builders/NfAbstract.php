@@ -27,7 +27,7 @@ abstract class NfAbstract implements InputTransformer
     {
         $header = [
             '_attributes' => [
-                HeaderEnum::VERSION => 1
+                HeaderEnum::VERSION => 2
             ],
         ];
 
@@ -140,6 +140,7 @@ abstract class NfAbstract implements InputTransformer
                 if (isset($extraInformations[$field]))
                     $rps[$field] = $extraInformations[$field];
             }
+
             // Taker
             $rps[RpsEnum::CPFCNPJ_TAKER] = $this->makeCPFCNPJTaker($extraInformations);
 
@@ -147,6 +148,7 @@ abstract class NfAbstract implements InputTransformer
                 if (isset($extraInformations[$field]))
                     $rps[$field] = $extraInformations[$field];
             }
+
             $rps[ComplexFieldsEnum::ADDRESS_TAKER] = $this->makeAddress($extraInformations);
 
             if (isset($extraInformations[RpsEnum::EMAIL_TAKER]))
@@ -155,8 +157,45 @@ abstract class NfAbstract implements InputTransformer
             if (isset($extraInformations[RpsEnum::DISCRIMINATION]))
                 $rps[RpsEnum::DISCRIMINATION] = $extraInformations[RpsEnum::DISCRIMINATION];
 
+            if (isset($extraInformations[RpsEnum::TAX_VALUE_INTERMEDIARY]) && !empty($extraInformations[RpsEnum::TAX_VALUE_INTERMEDIARY]))
+                $rps[RpsEnum::TAX_VALUE_INTERMEDIARY] = $extraInformations[RpsEnum::TAX_VALUE_INTERMEDIARY];
+
+            if (isset($extraInformations[RpsEnum::TAX_PERCENT_INTERMEDIARY]) && !empty($extraInformations[RpsEnum::TAX_PERCENT_INTERMEDIARY]))
+                $rps[RpsEnum::TAX_PERCENT_INTERMEDIARY] = $extraInformations[RpsEnum::TAX_PERCENT_INTERMEDIARY];
+
+
+            $rps[RpsEnum::SERVICE_VALUE_FINAL] = $extraInformations[RpsEnum::SERVICE_VALUE_FINAL];
+
+            // $rps["ValorJuros"] = 0;
+            $rps["ValorIPI"] = 0;
+
+
+            $rps["ExigibilidadeSuspensa"] = 0;
+            $rps["PagamentoParceladoAntecipado"] = 0;
+            // $rps["NCM"] = null;
+            $rps["NBS"] = "118054000";
+            $rps["cLocPrestacao"] = sprintf('%07s', General::onlyNumbers(3550308));
+
+            // incrição municipal passou de 8 para 12 caracteres
+
+            $rps["IBSCBS"] = [
+                "finNFSe" => 0,
+                "indFinal" => 0,
+                "cIndOp" => "100301", //verificar
+                "indDest" => 0,
+
+                "valores" => [
+                    'trib' => [
+                        "gIBSCBS" => [
+                            "cClassTrib" => "000001" // verificar
+                        ]
+                    ]
+                ]
+            ];
+
+
             // Optional Fields
-            if (isset($extraInformations[RpsEnum::CEI_CODE]) && !empty($extraInformations[RpsEnum::CEI_CODE]) )
+            if (isset($extraInformations[RpsEnum::CEI_CODE]) && !empty($extraInformations[RpsEnum::CEI_CODE]))
                 $rps[RpsEnum::CEI_CODE] = $extraInformations[RpsEnum::CEI_CODE];
 
             if (isset($extraInformations[RpsEnum::WORK_REGISTRATION]) && !empty($extraInformations[RpsEnum::WORK_REGISTRATION]))
@@ -168,13 +207,7 @@ abstract class NfAbstract implements InputTransformer
             if (isset($extraInformations[RpsEnum::ENCAPSULATION_NUMBER]) && !empty($extraInformations[RpsEnum::ENCAPSULATION_NUMBER]))
                 $rps[RpsEnum::ENCAPSULATION_NUMBER] = $extraInformations[RpsEnum::ENCAPSULATION_NUMBER];
 
-            if (isset($extraInformations[RpsEnum::TAX_VALUE_INTERMEDIARY]) && !empty($extraInformations[RpsEnum::TAX_VALUE_INTERMEDIARY]) )
-                $rps[RpsEnum::TAX_VALUE_INTERMEDIARY] = $extraInformations[RpsEnum::TAX_VALUE_INTERMEDIARY];
-
-            if (isset($extraInformations[RpsEnum::TAX_PERCENT_INTERMEDIARY]) && !empty($extraInformations[RpsEnum::TAX_PERCENT_INTERMEDIARY]) )
-                $rps[RpsEnum::TAX_PERCENT_INTERMEDIARY] = $extraInformations[RpsEnum::TAX_PERCENT_INTERMEDIARY];
-
-            if (isset($extraInformations[RpsEnum::TAX_ORIGIN]) && !empty($extraInformations[RpsEnum::TAX_ORIGIN]) )
+            if (isset($extraInformations[RpsEnum::TAX_ORIGIN]) && !empty($extraInformations[RpsEnum::TAX_ORIGIN]))
                 $rps[RpsEnum::TAX_ORIGIN] = $extraInformations[RpsEnum::TAX_ORIGIN];
 
             $rpsItens[] = $rps;

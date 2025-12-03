@@ -20,7 +20,7 @@ abstract class NftsAbstract implements InputTransformer
 
         $header = [
             '_attributes' => [
-                HeaderEnum::VERSION => 1
+                HeaderEnum::VERSION => 2
             ],
         ];
 
@@ -92,7 +92,8 @@ abstract class NftsAbstract implements InputTransformer
                 $detail = array_merge($detail, $this->makeNftsKey($document));
 
             if ($sign)
-                $detail[DetailEnum::CANCELLATION_SIGN] = Certificate::signItem($information,
+                $detail[DetailEnum::CANCELLATION_SIGN] = Certificate::signItem(
+                    $information,
                     Certificate::nftsCancellationSignatureString($detail)
                 );
 
@@ -148,7 +149,7 @@ abstract class NftsAbstract implements InputTransformer
                 if (isset($extraInformations[$field]))
                     $nfts[$field] = $extraInformations[$field];
             }
-//            $nfts[ComplexFieldsEnum::ADDRESS] = $this->makeAddress($extraInformations);
+            //            $nfts[ComplexFieldsEnum::ADDRESS] = $this->makeAddress($extraInformations);
 
             if (isset($extraInformations[RpsEnum::EMAIL_TAKER]))
                 $nfts[RpsEnum::EMAIL_TAKER] = $extraInformations[RpsEnum::EMAIL_TAKER];

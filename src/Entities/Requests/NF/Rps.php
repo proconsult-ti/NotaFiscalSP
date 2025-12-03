@@ -21,6 +21,7 @@ class Rps implements UserRequest
     private $dataEmissao;
     private $statusRps;
     private $tributacaoRps;
+    private $ValorFinalCobrado;
     private $valorServicos;
     private $valorDeducoes;
     private $valorPIS;
@@ -69,10 +70,19 @@ class Rps implements UserRequest
         $this->setTributacaoRps(TaxType::IN_SP);
         $this->setValorDeducoes(0);
         $this->setValorServicos(0);
+        $this->setValorPIS(0);
+        $this->setValorCOFINS(0);
+        $this->setValorINSS(0);
+        $this->setValorIR(0);
+        $this->setValorCSLL(0);
+        // $this->setValorCargaTributaria(0);
+
+
+        $this->setValorFinalCobrado(0);
         $this->setIssRetido(false);
         $this->setSerieRps('A');
         $this->setAliquotaServicos('0');
-//        $this->setCidade(3550308); // SP CODE
+        //        $this->setCidade(3550308); // SP CODE
     }
 
     /**
@@ -102,7 +112,8 @@ class Rps implements UserRequest
             RpsEnum::EMISSION_DATE => $this->dataEmissao,
             RpsEnum::RPS_STATUS => $this->statusRps,
             RpsEnum::RPS_TAX => $this->tributacaoRps,
-            RpsEnum::SERVICE_VALUE => $this->valorServicos,
+            // RpsEnum::SERVICE_VALUE => $this->valorServicos,
+            RpsEnum::SERVICE_VALUE_FINAL => $this->ValorFinalCobrado,
             RpsEnum::DEDUCTION_VALUE => $this->valorDeducoes,
             RpsEnum::PIS_VALUE => $this->valorPIS,
             RpsEnum::COFINS_VALUE => $this->valorCOFINS,
@@ -306,6 +317,22 @@ class Rps implements UserRequest
     public function setValorServicos($valorServicos)
     {
         $this->valorServicos = General::filterMonetaryValue($valorServicos);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValorFinalCobrado()
+    {
+        return $this->ValorFinalCobrado;
+    }
+
+    /**
+     * @param mixed $ValorFinalCobrado
+     */
+    public function setValorFinalCobrado($ValorFinalCobrado)
+    {
+        $this->ValorFinalCobrado = General::filterMonetaryValue($ValorFinalCobrado);
     }
 
     /**
