@@ -60,6 +60,7 @@ class Rps implements UserRequest
     private $cep;
     private $cpf;
     private $cnpj;
+    private $retencaoPisCofins;
 
     public function __construct()
     {
@@ -72,7 +73,8 @@ class Rps implements UserRequest
         $this->setIssRetido(false);
         $this->setSerieRps('A');
         $this->setAliquotaServicos('0');
-//        $this->setCidade(3550308); // SP CODE
+        $this->setRetencaoPisCofins('0');
+        //        $this->setCidade(3550308); // SP CODE
     }
 
     /**
@@ -124,6 +126,7 @@ class Rps implements UserRequest
             RpsEnum::WORK_REGISTRATION => $this->matriculaObra,
             RpsEnum::CITY_INSTALLMENT => $this->municipioPrestacao,
             RpsEnum::TOTAL_VALUE => $this->valortotalRecebido,
+            RpsEnum::RETENTION_PIS_CONFIS => $this->retencaoPisCofins,
             RpsEnum::ENCAPSULATION_NUMBER => $this->numeroEncapsulamento,
             RpsEnum::IM_TAKER => $this->inscricaoMunicipalTomador,
             RpsEnum::IE_TAKER => $this->inscricaoEstadualTomador,
@@ -434,6 +437,21 @@ class Rps implements UserRequest
     public function setAliquotaServicos($aliquotaServicos)
     {
         $this->aliquotaServicos = $aliquotaServicos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRetencaoPisCofins()
+    {
+        return $this->retencaoPisCofins;
+    }
+    /**
+     * @param mixed $retencaoPisCofins
+     */
+    public function setRetencaoPisCofins($retencaoPisCofins)
+    {
+        $this->retencaoPisCofins = $retencaoPisCofins;
     }
 
     /**

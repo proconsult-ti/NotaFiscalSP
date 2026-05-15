@@ -36,6 +36,7 @@ class RpsEnum
     const WORK_REGISTRATION = 'MatriculaObra';
     const CITY_INSTALLMENT = 'MunicipioPrestacao';
     const TOTAL_VALUE = 'ValorTotalRecebido';
+    const RETENTION_PIS_CONFIS = 'RetencaoPisCofins';
     const ENCAPSULATION_NUMBER = 'NumeroEncapsulamento';
 
     public static function simpleTypes()
