@@ -9,6 +9,7 @@ class RpsEnum
     const EMISSION_DATE = 'DataEmissao';
     const RPS_STATUS = 'StatusRPS';
     const RPS_TAX = 'TributacaoRPS';
+    const SERVICE_VALUE = 'ValorServicos';
     const SERVICE_VALUE_FINAL = 'ValorFinalCobrado';
     const DEDUCTION_VALUE = 'ValorDeducoes';
     const PIS_VALUE = 'ValorPIS';
@@ -37,9 +38,9 @@ class RpsEnum
     const WORK_REGISTRATION = 'MatriculaObra';
     const CITY_INSTALLMENT = 'MunicipioPrestacao';
     const TOTAL_VALUE = 'ValorTotalRecebido';
+    const RETENTION_PIS_CONFIS = 'RetencaoPisCofins';
     const ENCAPSULATION_NUMBER = 'NumeroEncapsulamento';
     const ENFORCEABILITY_SUSPENDED = 'ExigibilidadeSuspensa';
-    const PAYMENT_IN_ADVANCE = 'PagamentoParceladoAntecipado';
     const NBS = 'NBS';
     const C_LOC_PRESTACAO = 'cLocPrestacao';
     const IBSCBS = 'IBSCBS';
@@ -53,8 +54,28 @@ class RpsEnum
     const C_CLASS_TRIB = 'cClassTrib';
 
 
-    public static function simpleTypes()
+    public static function simpleTypes($version)
     {
+        if ($version == 1) {
+            return [
+                RpsEnum::RPS_TYPE,
+                RpsEnum::EMISSION_DATE,
+                RpsEnum::RPS_STATUS,
+                RpsEnum::RPS_TAX,
+                RpsEnum::SERVICE_VALUE,
+                RpsEnum::DEDUCTION_VALUE,
+                RpsEnum::PIS_VALUE,
+                RpsEnum::COFINS_VALUE,
+                RpsEnum::INSS_VALUE,
+                RpsEnum::IR_VALUE,
+                RpsEnum::CSLL_VALUE,
+                RpsEnum::SERVICE_CODE,
+                RpsEnum::SERVICE_TAX,
+                RpsEnum::ISS_RETENTION,
+            ];
+        }
+
+
         return [
             RpsEnum::RPS_TYPE,
             RpsEnum::EMISSION_DATE,

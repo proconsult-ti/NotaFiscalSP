@@ -26,7 +26,7 @@ class ApiClient
 
             $arguments = [
                 $method => [
-                    'VersaoSchema' => 2,
+                    'VersaoSchema' => $baseInformation->getVersion(),
                     'MensagemXML' => $baseInformation->getXml()
                 ],
             ];

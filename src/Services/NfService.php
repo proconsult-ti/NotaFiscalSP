@@ -35,9 +35,9 @@ class NfService
     private $nfEndPoint;
     private $nfAsyncEndPoint;
 
-    public function __construct()
+    public function __construct(private $version)
     {
-        $this->nfEndPoint = WsdlBuilder::make(Endpoints::NF);
+        $this->nfEndPoint = WsdlBuilder::make($this->version == 1 ? Endpoints::NF_V1 : Endpoints::NF_V2);
         $this->nfAsyncEndPoint = WsdlBuilder::make(Endpoints::NF_ASYNC);
         $this->response = new BasicTransformerResponse();
     }
@@ -106,8 +106,8 @@ class NfService
     {
         $builder = new PedidoEnvioRPS();
         $response = $this->processRequest($baseInformation, $params, NfMethods::ENVIO, $builder);
-        if($response->getSuccess() == 'false'){
-            $response->setMessage(General::getPath($response->getResponse(),'Erro.0.Descricao'));
+        if ($response->getSuccess() == 'false') {
+            $response->setMessage(General::getPath($response->getResponse(), 'Erro.0.Descricao'));
         }
         return $response;
     }
@@ -193,5 +193,4 @@ class NfService
         $builder = new PedidoEmissaoGuiaAsync();
         return $this->processAsyncRequest($baseInformation, $params, NfAsyncMethods::EMISSAO_GUIA_ASYNC, $builder);
     }
-
 }

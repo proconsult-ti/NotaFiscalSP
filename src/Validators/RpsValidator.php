@@ -16,16 +16,18 @@ use NotaFiscalSP\Helpers\Certificate;
 
 class RpsValidator
 {
-    public static function  validateRpsType($value){
-        if(!in_array($value, [RPSType::RECIBO_PROVISORIO,RPSType::RECIBO_PROVENIENTE_DE_NOTA_CONJUGADA, RPSType::CUPOM])){
-            $expected = RPSType::RECIBO_PROVISORIO. ', '. RPSType::RECIBO_PROVENIENTE_DE_NOTA_CONJUGADA. ' ou '.RPSType::CUPOM;
+    public static function  validateRpsType($value)
+    {
+        if (!in_array($value, [RPSType::RECIBO_PROVISORIO, RPSType::RECIBO_PROVENIENTE_DE_NOTA_CONJUGADA, RPSType::CUPOM])) {
+            $expected = RPSType::RECIBO_PROVISORIO . ', ' . RPSType::RECIBO_PROVENIENTE_DE_NOTA_CONJUGADA . ' ou ' . RPSType::CUPOM;
             throw new InvalidParam('TipoRps', $expected);
         }
     }
 
-    public static function  validateRpsStatus($value){
-        if(!in_array($value, [Status::NORMAL, Status::CANCELLED, Status::MISPLACED])){
-            $expected = Status::NORMAL. ', '.  Status::CANCELLED. ' ou '.Status::MISPLACED;
+    public static function  validateRpsStatus($value)
+    {
+        if (!in_array($value, [Status::NORMAL, Status::CANCELLED, Status::MISPLACED])) {
+            $expected = Status::NORMAL . ', ' .  Status::CANCELLED . ' ou ' . Status::MISPLACED;
             throw new InvalidParam('StatusRps', $expected);
         }
     }
@@ -34,7 +36,7 @@ class RpsValidator
     {
         $rpsOK = [];
 
-        $rps = !array_key_exists(0, $rps2) ? [$rps2] : $rps2 ;
+        $rps = !array_key_exists(0, $rps2) ? [$rps2] : $rps2;
 
         foreach ($rps as $item) {
             if ($item instanceof Rps) {
@@ -43,14 +45,14 @@ class RpsValidator
             if (empty($item[SimpleFieldsEnum::IM_PROVIDER]))
                 $item[SimpleFieldsEnum::IM_PROVIDER] = $baseInformation->getIm();
 
-            if(isset($item[RpsEnum::ISS_RETENTION])){
+            if (isset($item[RpsEnum::ISS_RETENTION])) {
                 $item[RpsEnum::ISS_RETENTION] = $item[RpsEnum::ISS_RETENTION] ? BooleanFields::LOWER_TRUE : BooleanFields::LOWER_FALSE;
-            }else{
+            } else {
                 $item[RpsEnum::ISS_RETENTION] = BooleanFields::LOWER_FALSE;
             }
 
             $item[ComplexFieldsEnum::RPS_KEY] = true;
-            $item[DetailEnum::SIGN] = Certificate::rpsSignatureString($item);
+            $item[DetailEnum::SIGN] = Certificate::rpsSignatureString($item, $baseInformation->getVersion());
             $rpsOK[] = $item;
         }
         return $rpsOK;

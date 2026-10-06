@@ -140,8 +140,7 @@ class Lot implements UserRequest
             if ($rps instanceof Rps) {
                 $emission = $rps->getDataEmissao();
                 $startDate = strtotime($emission) < strtotime($startDate) ? $emission : $startDate;
-
-                $valorTotalServicos = $valorTotalServicos + $rps->getValorFinalCobrado();
+                $valorTotalServicos = $valorTotalServicos + ($rps->getValorFinalCobrado() ?? $rps->getValorServicos());
                 $valorTotalDeducoes = $valorTotalDeducoes + $rps->getValorDeducoes();
             }
         }

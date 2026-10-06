@@ -52,6 +52,10 @@ class BaseInformation
      * @var
      */
     private $certificatePath;
+    /**
+     * @var
+     */
+    private $version;
 
     /**
      * @return mixed
@@ -208,5 +212,20 @@ class BaseInformation
         } else {
             $this->im = General::onlyNumbers($im);
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+    /**
+     * @param int $version
+     */
+    public function setVersion(int $version)
+    {
+        $this->version = $version;
     }
 }

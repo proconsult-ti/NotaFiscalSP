@@ -17,14 +17,17 @@ class NotaFiscalSP
     private $baseInformation;
     private $nfService;
     private $nftsService;
+    private $version;
 
     public function __construct(array $options)
     {
+        $this->version = $options['version'];
+
         // Validate Params
         BaseInformationValidator::basic($options);
         $this->baseInformation = BaseEntitiesBuilder::makeBaseInformation($options);
 
-        $this->nfService = new NfService;
+        $this->nfService = new NfService($this->version);
         $this->nftsService = new NftsService;
 
         // Case 'IM' not Defined, get from API
@@ -166,5 +169,4 @@ class NotaFiscalSP
     {
         return $this->nftsService->cancelNfts($this->baseInformation, $params);
     }
-
 }
