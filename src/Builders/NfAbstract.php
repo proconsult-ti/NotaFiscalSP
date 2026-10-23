@@ -222,8 +222,8 @@ abstract class NfAbstract implements InputTransformer
             if (isset($extraInformations[RpsEnum::TAX_ORIGIN]) && !empty($extraInformations[RpsEnum::TAX_ORIGIN]))
                 $rps[RpsEnum::TAX_ORIGIN] = $extraInformations[RpsEnum::TAX_ORIGIN];
 
-            if (isset($extraInformations[RpsEnum::RETENTION_PIS_CONFIS]) && trim($extraInformations[RpsEnum::RETENTION_PIS_CONFIS]) != "")
-                $rps[RpsEnum::RETENTION_PIS_CONFIS] = $extraInformations[RpsEnum::RETENTION_PIS_CONFIS];
+            // if (isset($extraInformations[RpsEnum::RETENTION_PIS_CONFIS]) && trim($extraInformations[RpsEnum::RETENTION_PIS_CONFIS]) != "")
+            //     $rps[RpsEnum::RETENTION_PIS_CONFIS] = $extraInformations[RpsEnum::RETENTION_PIS_CONFIS];
 
             $rpsItens[] = $rps;
         }

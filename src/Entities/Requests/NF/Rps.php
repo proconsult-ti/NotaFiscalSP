@@ -189,6 +189,7 @@ class Rps implements UserRequest
                 RpsEnum::RPS_STATUS => $this->statusRps,
                 RpsEnum::RPS_TAX => $this->tributacaoRps,
                 RpsEnum::SERVICE_VALUE_FINAL => $this->ValorFinalCobrado,
+                RpsEnum::RETENTION_PIS_CONFIS => $this->retencaoPisCofins,
                 RpsEnum::DEDUCTION_VALUE => $this->valorDeducoes,
                 RpsEnum::PIS_VALUE => $this->valorPIS,
                 RpsEnum::COFINS_VALUE => $this->valorCOFINS,
